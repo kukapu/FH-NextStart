@@ -1,22 +1,15 @@
-import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
+import { MainLayout } from '@/components/layout/MainLayout'
+import { DarkLayout } from '@/components/layout/DarkLayout'
+import { ReactNode } from 'react';
 
 export default function about() {
   return (
-    <>
-      <Head>
-        <title>About Next First</title>
-        <meta name="description" content="Home Next First" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <div className={styles.description}>
+    <div>
+        <div className={'description'}>
           <p>
             Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
+            <code className={'code'}>pages/about.tsx</code>
           </p>
           <div>
             <Link href="/">
@@ -24,10 +17,19 @@ export default function about() {
             </Link>
           </div>
         </div>
-        <h1>
+        <h1 className={'title'}>
           About Page
         </h1>
-      </main>
-    </>
+    </div>
+  )
+}
+
+about.getLayout = function getLayout(page: ReactNode) {
+  return (
+    <MainLayout>
+      <DarkLayout>
+        { page }
+      </DarkLayout>
+    </MainLayout>
   )
 }
