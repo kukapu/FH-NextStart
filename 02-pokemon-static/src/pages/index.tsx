@@ -14,7 +14,7 @@ interface Props {
 
 export default function Home ( pokemons: Props ) {
 
-  console.log(pokemons)
+  // console.log(pokemons)
 
   return (
     <Layout>
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async (ctx) =>{
     return {
       ...pokemon,
       id: index + 1,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ index + 1 }.png`,
+      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${ index + 1 }.svg`,
     }
   })
 
