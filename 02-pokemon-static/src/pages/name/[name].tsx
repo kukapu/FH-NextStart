@@ -7,14 +7,14 @@ import confeti from 'canvas-confetti';
 
 import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
-import { pokemonFull } from '@/interfaces';
+import { PokemonList, pokemonFull } from '@/interfaces';
 import { getPokemonInfo, localFavorite } from '@/utils';
 
 type PokemonPageProps = {
   pokemon: pokemonFull;
 }
 
-const PokemonPage: NextPage<PokemonPageProps> = ({ pokemon }) => {
+const PokemonNamePage: NextPage<PokemonPageProps> = ({ pokemon }) => {
 
   const [isFavorite, setIsFavorite] = useState<boolean>( localFavorite.isPokemonFavorite(pokemon.id) )
 
@@ -110,32 +110,29 @@ const PokemonPage: NextPage<PokemonPageProps> = ({ pokemon }) => {
 }
 
 
+export const getStaticPaths: GetStaticPaths = async() => {
 
-
-export const getStaticPaths: GetStaticPaths = () => {
-
-  const pokemons151 = [...Array(151)].map( (value, index) => `${ index + 1 }`)
+  const { data } = await pokeApi.get<PokemonList>('/pokemon?limit=151')
+  const pokemonNames151 = data.results.map( pokemon => pokemon.name )
 
   return {
-    paths: pokemons151.map( id => ({
-      params: { id }
+    paths: pokemonNames151.map( name => ({
+      params: { name }
     })),
     fallback: 'blocking'
   }
 }
 
+
 export const getStaticProps: GetStaticProps = async (ctx) =>{
 
   const { params } = ctx
-  const { id } = params as { id: string }
-
+  const { name } = params as { name: string }
 
   return {
     props:{
-      pokemon: await getPokemonInfo( id )
+      pokemon: await getPokemonInfo( name ),
     }
   }
 }
-
-
-export default PokemonPage
+export default PokemonNamePage

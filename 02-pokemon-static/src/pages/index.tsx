@@ -1,7 +1,6 @@
-import { GetStaticProps, NextPage } from 'next';
-import Image from 'next/image';
+import { GetStaticProps } from 'next';
 
-import { Button, Card, Grid, Row, Text } from "@nextui-org/react";
+import { Grid } from "@nextui-org/react";
 
 import { PokemonList, SmallPokemon } from '@/interfaces';
 import { pokeApi } from '@/api';
