@@ -9,6 +9,7 @@ import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
 import { pokemonFull } from '@/interfaces';
 import { getPokemonInfo, localFavorite } from '@/utils';
+import { redirect } from 'next/dist/server/api-utils';
 
 type PokemonPageProps = {
   pokemon: pokemonFull;
@@ -120,7 +121,7 @@ export const getStaticPaths: GetStaticPaths = () => {
     paths: pokemons151.map( id => ({
       params: { id }
     })),
-    fallback: 'blocking'
+    fallback: 'blocking',
   }
 }
 
@@ -129,11 +130,24 @@ export const getStaticProps: GetStaticProps = async (ctx) =>{
   const { params } = ctx
   const { id } = params as { id: string }
 
+  const pokemon = await getPokemonInfo( id )
+
+  if( !pokemon ) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
+
+
 
   return {
     props:{
-      pokemon: await getPokemonInfo( id )
-    }
+      pokemon,
+    },
+    revalidate: 86400, // 24 horas  
   }
 }
 
