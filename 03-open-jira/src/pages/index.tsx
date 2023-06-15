@@ -3,6 +3,9 @@ import { EntryList, NewEntry } from "@/components/ui";
 import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
 export default function Home() {
+
+  // console.log(process.env.NEXT_PUBLIC_CLIENT_KEY)
+
   return (
     
     <Layout title="Home - OpenJira">
