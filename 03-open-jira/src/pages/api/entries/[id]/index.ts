@@ -24,6 +24,9 @@ export default function handler(req:NextApiRequest, res:NextApiResponse) {
     case 'GET':
       return getEntry( req, res )
 
+    case 'DELETE':
+      return deleteEntry( req, res )
+
     default:
       return res.status(400).json({ message: 'Metodo no permitido' })
   }
@@ -89,5 +92,30 @@ const getEntry = async ( req: NextApiRequest, res: NextApiResponse<Data> ) => {
       message: error.errors.status.message,
     })
   }
+}
 
+const deleteEntry = async ( req: NextApiRequest, res: NextApiResponse<Data> ) => {
+    
+  const { id } = req.query
+  await db.connect();
+
+  const entryToDelete = await EntryModel.findById( id )
+
+  if( !entryToDelete ) {
+    await db.disconnect();
+    return res.status(404).json({ message: 'No entrada con ID: ' + id })
+  }
+
+  try {
+    await EntryModel.findByIdAndDelete( id )
+    await db.disconnect();
+    return res.status(200).json({ message: 'Entrada eliminada' })
+    
+  } catch (error: any) {
+    console.log(error)
+    await db.disconnect();
+    res.status(400).json({
+      message: error.errors.status.message,
+    })
+  }
 }

@@ -1,10 +1,11 @@
 import { Box } from "@mui/material"
 import Head from "next/head"
-import { FC, PropsWithChildren } from "react"
+import React, { FC, PropsWithChildren } from "react"
 import { Navbar, Sidebar } from "../ui"
 
 interface LayoutProps {
-  title?: string
+  title?: string,
+  children: React.ReactNode
 }
 
 

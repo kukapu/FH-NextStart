@@ -6,6 +6,7 @@ type EntriesActionType =
    | { type: '[Entry] - add', payload: Entry } 
    | { type: '[Entry] - updateStatus', payload: Entry } 
    | { type: '[Entry] - refreshData', payload: Entry[] }
+   | { type: '[Entry] - delete', payload: string }
 
 
 export const entriesReducer = ( state: EntriesState, action: EntriesActionType ): EntriesState => {
@@ -34,6 +35,13 @@ export const entriesReducer = ( state: EntriesState, action: EntriesActionType )
         ...state,
         entries: [...action.payload ] 
       }
+
+    case '[Entry] - delete':
+      return {
+        ...state,
+        entries: state.entries.filter( entry => entry._id !== action.payload )
+      }
+
 
     default:
       return state;
